@@ -1,8 +1,17 @@
 def part1(data):
-    pass
+    count = 0
+    for i,nmbr in enumerate(data[:-1]):
+        if int(data[i+1]) > int(data[i]):
+            count = count +1
+    return count
 
 def part2(data):
-    pass
+    count = 0
+    for i,nmbr in enumerate(data[:-3]):
+        if (int(data[i+1]) + int(data[i+2]) + int(data[i+3])) > \
+            int(data[i  ]) + int(data[i+1]) + int(data[i+2]):
+            count = count +1
+    return count
 
 if __name__ == "__main__":
     data = []
