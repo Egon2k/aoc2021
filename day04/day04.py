@@ -1,7 +1,13 @@
 def transposeSet(set):
+    '''
+    returns the transpose of a given set
+    '''
     return list(map(list, zip(*set)))
 
 def checkLine(set):
+    '''
+    checks if one line a set contains only maked numbers = winning condition
+    '''
     for line in set:
         for nmbr in line:
             # check complete line
@@ -10,6 +16,9 @@ def checkLine(set):
         return True
 
 def calcSumOfNonMarked(set):
+    '''
+    returns the sum of all unmarkted numbers in a given set
+    '''
     count = 0
     for line in set:
         for nmbr in line:
@@ -18,6 +27,10 @@ def calcSumOfNonMarked(set):
     return count
 
 def checkWinning(sets):
+    '''
+    checks if one of the given sets is a winner and returns its index
+    returns -1 in case of no winner
+    '''
     for i, set in enumerate(sets):
         if checkLine(set) or checkLine(transposeSet(set)):
             return i
@@ -49,6 +62,7 @@ if __name__ == "__main__":
             data.append(line.strip())
         data.append("") # append empty line to make data processing detect last set
 
+    # prepare data for processing
     draws = [int(i) for i in data[0].split(',')]
     sets = list()
     set = list()
