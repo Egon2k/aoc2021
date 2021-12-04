@@ -1,3 +1,7 @@
+'''''''''''''''''''''
+Ey, nicht spicken :P 
+'''''''''''''''''''''
+
 def transposeSet(set):
     '''
     returns the transpose of a given set
@@ -6,7 +10,7 @@ def transposeSet(set):
 
 def checkLinesInSet(set):
     '''
-    checks if one line a set contains only maked numbers = winning condition
+    checks if one line a set contains only marked numbers = winning condition
     '''
     win = False
     for line in set:
@@ -15,10 +19,9 @@ def checkLinesInSet(set):
             return True
     return False
 
-
 def calcSumOfNonMarked(set):
     '''
-    returns the sum of all unmarkted numbers in a given set
+    returns the sum of all unmarked numbers in a given set
     '''
     count = 0
     for line in set:
@@ -28,6 +31,9 @@ def calcSumOfNonMarked(set):
     return count
 
 def checkWinningSet(set):
+    '''
+    returns True in case of winning condition (colume or row with only -1) 
+    '''
     return checkLinesInSet(set) or checkLinesInSet(transposeSet(set))
 
 def checkWinningFirst(sets):
@@ -40,27 +46,27 @@ def checkWinningFirst(sets):
             return i
     return -1
 
-def checkWinningLast(sets):
+def checkWinningSecondLast(sets):
     '''
-    checks if all of the given sets are a winner and returns its index
-    returns -1 in case of no winner
+    checks if all but one set are winners and return the index of the last 
+    not-winner - else returns -1
     '''
     count = 0
     idx = 0
     for i, set in enumerate(sets):
-        if checkWinningSet(set) != -1:
+        if checkWinningSet(set):
             count += 1
-            break
+        else:
+            idx = i
             
-    if count == len(sets):
+    if count == len(sets)-1:
         return idx
     else:
         return -1
 
 def part1(draws, sets):
-    localSets = sets[:]
     for draw in draws:
-        for set in localSets:
+        for set in sets:
             for line in set:
                 if draw in line:
                     # if draw in line, replace with -1
@@ -68,29 +74,25 @@ def part1(draws, sets):
                     break
 
         # after each draw, check winning condition
-        winningSet = checkWinningFirst(localSets)
+        winningSet = checkWinningFirst(sets)
 
         if winningSet != -1:
-            return draw * calcSumOfNonMarked(localSets[winningSet])
+            return draw * calcSumOfNonMarked(sets[winningSet])
 
 def part2(draws, sets):
-    localSets = sets[:]
-    for draw in draws:
-        for set in localSets:
+    for i, draw in enumerate(draws[:-1]):
+        for set in sets:
             for line in set:
                 if draw in line:
                     # if draw in line, replace with -1
                     line[line.index(draw)] = -1
                     break
-
+        
         # after each draw, check winning condition
-        if draw == 13:
-            draw = draw
-
-        winningSet = checkWinningLast(localSets)
+        winningSet = checkWinningSecondLast(sets)
 
         if winningSet != -1:
-            return draw * calcSumOfNonMarked(localSets[winningSet])
+            return draws[i+1] * (calcSumOfNonMarked(sets[winningSet]) - draws[i+1])
             
 def prepareData(data):
     draws = [int(i) for i in data[0].split(',')]
@@ -99,16 +101,18 @@ def prepareData(data):
 
     for i, line in enumerate(data[2:]):
         if line == "":
+            # append set to sets and clear set for next
             sets.append(set)
             set = []
         else:
+            # convert strings to int and append to set
             set.append([int(i) for i in line.split()])
     return draws,sets
 
 if __name__ == "__main__":
     data = []
 
-    with open('day04/testdata.txt') as f:
+    with open('day04/data.txt') as f:
         for line in f:
             data.append(line.strip())
         data.append("") # append empty line to make data processing detect last set
