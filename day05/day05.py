@@ -22,7 +22,7 @@ def sortCoords(instr):
         i[1] = temp
     return i
 
-def part1(instrs):
+def solve(instrs, part):
     dim = 1000
     grid = [[0]*dim for i in range(dim)] # create grid with dim x dim
     
@@ -36,12 +36,31 @@ def part1(instrs):
             for x in range(i[0],i[2]+1):
                 grid[i[1]][x] += 1
         else:
-            # ignore for now (and we all know it will be important in part2)
-            pass
+            if part == 1:
+                # ignore for now (and we all know it will be important in part2)
+                pass
+            else:
+                i = sortCoords(instr)
+                x = instr[0]
+                y = instr[1]
+                for _ in range(i[2] - i[0] + 1):
+                    grid[y][x] += 1
+                    if instr[0] < instr[2]:
+                        x += 1
+                    else:
+                        x -= 1
+                    if instr[1] < instr[3]:
+                        y += 1
+                    else:
+                        y -= 1
+           
     return count(grid, 1)
+    
+def part1(instrs):
+    return solve(instrs, 1)
 
 def part2(instrs):
-    pass
+    return solve(instrs, 2)
 
 def prepareData(data):
     instr = list()
