@@ -10,6 +10,15 @@ def part1_stats(data):
         result += abs(median - crab)
     return result
 
+def part2_stats(data):
+    import statistics
+
+    mean = int(statistics.mean(data))
+    result = 0
+    for crab in data:
+        result += abs(mean - crab) * (abs(mean - crab) + 1) // 2
+    return result
+
 def part1(data):
     distances = list()
     for x in range(min(data), max(data) + 1):
@@ -34,5 +43,6 @@ if __name__ == "__main__":
             data = [int(i) for i in line.strip().split(',')]
 
     print(part1_stats(data))
+    print(part2_stats(data))
     print(part1(data))
     print(part2(data))
