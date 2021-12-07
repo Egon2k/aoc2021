@@ -2,18 +2,18 @@
 Ey, nicht spicken :P 
 '''''''''''''''''''''
 def part1_stats(data):
-    import statistics
+    from statistics import median
 
-    median = int(statistics.median(data))
+    median = int(median(data))
     result = 0
     for crab in data:
         result += abs(median - crab)
     return result
 
 def part2_stats(data):
-    import statistics
+    from statistics import mean
 
-    mean = int(statistics.mean(data))
+    mean = int(mean(data))
     result = 0
     for crab in data:
         result += abs(mean - crab) * (abs(mean - crab) + 1) // 2
