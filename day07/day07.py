@@ -6,16 +6,16 @@ def part1_stats(data):
 
     median = int(statistics.median(data))
     result = 0
-    for crap in data:
-        result += abs(median - crap)
+    for crab in data:
+        result += abs(median - crab)
     return result
 
 def part1(data):
     distances = list()
     for x in range(min(data), max(data) + 1):
         sum = 0
-        for crap in data:
-            sum += abs(x - crap)
+        for crab in data:
+            sum += abs(x - crab)
         distances.append(sum)
     return min(distances)
 
@@ -23,8 +23,8 @@ def part2(data):
     distances = list()
     for x in range(min(data), max(data) + 1):
         sum = 0
-        for crap in data:
-            sum += abs(x - crap) * (abs(x - crap) + 1) // 2
+        for crab in data:
+            sum += abs(x - crab) * (abs(x - crab) + 1) // 2
         distances.append(sum)
     return min(distances)
     
