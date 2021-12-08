@@ -1,6 +1,6 @@
-'''''''''''''''''''''
-Ey, nicht spicken :P 
-'''''''''''''''''''''
+'''''''''''''''''''''''''''
+Spicken ist für Loser :P 
+'''''''''''''''''''''''''''
 def part1(data):
     count = 0
     for line in data:
@@ -10,7 +10,97 @@ def part1(data):
     return count
 
 def part2(data):
-    pass
+    sum = 0
+    sortedData = sortData(data)
+
+    for line in sortedData:
+        digitZero = ""  # 6 seg
+        digitOne = ""   # 2 seq (unique)
+        digitTwo = ""   # 5 seg
+        digitThree = "" # 5 seg
+        digitFour = ""  # 4 seg (unique)
+        digitFive = ""  # 5 seg
+        digitSix = ""   # 6 seg
+        digitSeven = "" # 3 seg (unique)
+        digitEight = "" # 7 seg (unique)
+        digitNine = ""  # 6 seg
+
+        # identify uniques
+        for digit in line[:line.index('|')]:
+            if len(digit) == 1: # delimiter
+                pass
+            if len(digit) == 2:
+                digitOne = digit
+            if len(digit) == 3: 
+                digitSeven = digit
+            if len(digit) == 4: 
+                digitFour = digit
+            if len(digit) == 7: 
+                digitEight = digit
+
+        segBD = digitFour.replace(digitOne[0], '').replace(digitOne[1], '')
+        segCF = digitOne
+        
+        # identify others
+        for digit in line[:line.index('|')]:
+            if len(digit) == 6: # digitZero or digitSix or digitNine
+                if segBD[0] in digit and segBD[1] in digit:
+                    # digitSix or digitNine
+                    if segCF[0] in digit and segCF[1] in digit:
+                        digitNine = digit
+                    else:
+                        digitSix = digit
+                else:
+                    digitZero = digit
+            if len(digit) == 5: # digitTwo or digitThree or digitFive
+                if segBD[0] in digit and segBD[1] in digit:
+                    digitFive = digit
+                else:
+                    if segCF[0] in digit and segCF[1] in digit:
+                        digitThree = digit
+                    else:
+                        digitTwo = digit
+        
+        number = 0
+        for digit in line[line.index('|'):]:
+            number *= 10
+            if digitZero == digit:
+                number += 0
+            elif digitOne == digit:
+                number += 1
+            elif digitTwo == digit:
+                number += 2
+            elif digitThree == digit:
+                number += 3
+            elif digitFour == digit:
+                number += 4
+            elif digitFive == digit:
+                number += 5
+            elif digitSix == digit:
+                number += 6
+            elif digitSeven == digit:
+                number += 7
+            elif digitEight == digit:
+                number += 8
+            elif digitNine == digit:
+                number += 9
+        
+        sum += number
+            
+    return sum
+
+def sortString(str):
+    sortedChars = sorted(str)
+    return "".join(sortedChars)
+
+def sortData(data):
+    sortedData = list()
+    for line in data:
+        sortedLine = list()
+        for digit in line:
+            sortedLine.append(sortString(digit))
+        sortedData.append(sortedLine)
+    return sortedData
     
 if __name__ == "__main__":
     data = []
