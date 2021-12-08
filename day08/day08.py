@@ -36,6 +36,16 @@ def part2(data):
             if len(digit) == 7: 
                 digitEight = digit
 
+        # all 7 segments       digitFour without digitOne equals segBD
+        #   
+        #   aaaa               
+        #  b    c              b    c               c          b 
+        #  b    c              b    c               c          b
+        #   dddd                dddd       -             =      dddd
+        #  e    f                   f               f
+        #  e    f                   f               f
+        #   gggg    
+                 
         segBD = digitFour.replace(digitOne[0], '').replace(digitOne[1], '')
         segCF = digitOne
         
