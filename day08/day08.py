@@ -27,8 +27,6 @@ def part2(data):
 
         # identify uniques
         for digit in line[:line.index('|')]:
-            if len(digit) == 1: # delimiter
-                pass
             if len(digit) == 2:
                 digitOne = digit
             if len(digit) == 3: 
