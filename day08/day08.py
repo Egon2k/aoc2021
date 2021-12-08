@@ -52,19 +52,19 @@ def part2(data):
         # identify others
         for digit in line[:line.index('|')]:
             if len(digit) == 6: # digitZero or digitSix or digitNine
-                if segBD[0] in digit and segBD[1] in digit:
+                if all(x in digit for x in segBD):
                     # digitSix or digitNine
-                    if segCF[0] in digit and segCF[1] in digit:
+                    if all(x in digit for x in segCF):
                         digitNine = digit
                     else:
                         digitSix = digit
                 else:
                     digitZero = digit
             if len(digit) == 5: # digitTwo or digitThree or digitFive
-                if segBD[0] in digit and segBD[1] in digit:
+                if all(x in digit for x in segBD):
                     digitFive = digit
                 else:
-                    if segCF[0] in digit and segCF[1] in digit:
+                    if all(x in digit for x in segCF):
                         digitThree = digit
                     else:
                         digitTwo = digit
