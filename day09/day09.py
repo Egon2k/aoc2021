@@ -1,36 +1,35 @@
 '''''''''''''''''''''''''''''''''
 Wer das hier liest, ist doof :P 
 '''''''''''''''''''''''''''''''''
+def getNeighbor(data, row, col, dir):
+    if dir == 0: # up
+        if col > 0:
+            return data[row][col-1]
+    elif dir == 1: # down
+        if col < len(data[0])-1:
+            return data[row][col+1]
+    elif dir == 2: # left
+        if row > 0:
+            return data[row-1][col]
+    elif dir == 3: # right
+        if row < len(data)-1:
+            return data[row+1][col]
+    return 9
+
 def part1(data):
     sum = 0
     for row in range(len(data)):
         for col in range(len(data[0])):
             dirs = [False, False, False, False]
-            # up
-            if col > 0:
-                if data[row][col] < data[row][col-1]:
-                    dirs[0] = True
-            else:
+            if data[row][col] < getNeighbor(data, row, col, 0): # up
                 dirs[0] = True
-            # down
-            if col < len(data[0])-1:
-                if data[row][col] < data[row][col+1]:
-                    dirs[1] = True
-            else:
+            if data[row][col] < getNeighbor(data, row, col, 1): # down
                 dirs[1] = True
-            # left
-            if row > 0:
-                if data[row][col] < data[row-1][col]:
-                    dirs[2] = True
-            else:
+            if data[row][col] < getNeighbor(data, row, col, 2): # left
                 dirs[2] = True
-            # right
-            if row < len(data)-1:
-                if data[row][col] < data[row+1][col]:
-                    dirs[3] = True
-            else:
+            if data[row][col] < getNeighbor(data, row, col, 3): # right
                 dirs[3] = True
-
+            
             if all(dirs):
                 sum += data[row][col] + 1
     return sum
