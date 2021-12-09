@@ -20,17 +20,10 @@ def part1(data):
     sum = 0
     for row in range(len(data)):
         for col in range(len(data[0])):
-            dirs = [False, False, False, False]
-            if data[row][col] < getNeighbor(data, row, col, 0): # up
-                dirs[0] = True
-            if data[row][col] < getNeighbor(data, row, col, 1): # down
-                dirs[1] = True
-            if data[row][col] < getNeighbor(data, row, col, 2): # left
-                dirs[2] = True
-            if data[row][col] < getNeighbor(data, row, col, 3): # right
-                dirs[3] = True
-            
-            if all(dirs):
+            if data[row][col] < getNeighbor(data, row, col, 0) and \
+               data[row][col] < getNeighbor(data, row, col, 1) and \
+               data[row][col] < getNeighbor(data, row, col, 2) and \
+               data[row][col] < getNeighbor(data, row, col, 3):
                 sum += data[row][col] + 1
     return sum
 
