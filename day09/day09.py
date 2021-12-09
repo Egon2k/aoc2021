@@ -1,7 +1,12 @@
 '''''''''''''''''''''''''''''''''
-Wer das hier liest, ist doof :P 
+Wer das hier liest, ist doof :P
 '''''''''''''''''''''''''''''''''
 def getNeighbor(data, row, col, dir):
+    '''
+    returns the neighbors value according to the direction 
+    for the given coordinates - returns 9 in case of edge
+    0 = up, 1 = down, 2 = left, 3 = right
+    '''
     if dir == 0: # up
         if col > 0:
             return data[row][col-1]
@@ -16,6 +21,46 @@ def getNeighbor(data, row, col, dir):
             return data[row+1][col]
     return 9
 
+def getNeighborsLess9(data, row, col):
+    '''
+    returns a list of all neighbors of the given coords 
+    that are lower than 9
+    '''
+    neighbors = list()
+    if getNeighbor(data, row, col, 0) < 9:
+        neighbors.append((row, col-1))
+    if getNeighbor(data, row, col, 1) < 9:
+        neighbors.append((row, col+1))
+    if getNeighbor(data, row, col, 2) < 9:
+        neighbors.append((row-1, col))
+    if getNeighbor(data, row, col, 3) < 9:
+        neighbors.append((row+1, col))
+    return neighbors
+
+def getBasinSize(data, row, col):
+    '''
+    goes through all parts of basin until no new 
+    neighbar < 9 is found
+    '''
+    origin = (row, col)
+    basin = [origin]
+    a = True
+    while(a):
+        for i in basin:
+            neighbors = getNeighborsLess9(data, i[0], i[1])
+            for neighbor in neighbors:
+                if neighbor not in basin:
+                    basin.append(neighbor)
+
+        for i in basin:
+            neighbors = getNeighborsLess9(data, i[0], i[1])
+            # no new neighbors found if all found neighbors are part of basin
+            for x in neighbors:
+                if x not in basin:
+                    break
+        a = False
+    return len(basin)
+
 def part1(data):
     sum = 0
     for row in range(len(data)):
@@ -27,8 +72,20 @@ def part1(data):
                 sum += data[row][col] + 1
     return sum
 
+
 def part2(data):
-    pass
+    basinSizes = list()
+    for row in range(len(data)):
+        for col in range(len(data[0])):
+            if data[row][col] < getNeighbor(data, row, col, 0) and \
+               data[row][col] < getNeighbor(data, row, col, 1) and \
+               data[row][col] < getNeighbor(data, row, col, 2) and \
+               data[row][col] < getNeighbor(data, row, col, 3):
+                basinSizes.append(getBasinSize(data, row, col))
+
+    # sort and return the product of the last/biggest 3 basins
+    basinSizes.sort()
+    return basinSizes[-3] * basinSizes[-2] * basinSizes[-1]
 
 if __name__ == "__main__":
     data = []
