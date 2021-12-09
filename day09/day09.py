@@ -1,5 +1,5 @@
 '''''''''''''''''''''''''''''''''
-Wer das hier liest, ist doof :P
+Wer das hier liest ist doof :P
 '''''''''''''''''''''''''''''''''
 def getNeighbor(data, row, col, dir):
     '''
@@ -65,10 +65,7 @@ def part1(data):
     sum = 0
     for row in range(len(data)):
         for col in range(len(data[0])):
-            if data[row][col] < getNeighbor(data, row, col, 0) and \
-               data[row][col] < getNeighbor(data, row, col, 1) and \
-               data[row][col] < getNeighbor(data, row, col, 2) and \
-               data[row][col] < getNeighbor(data, row, col, 3):
+            if all(data[row][col] < getNeighbor(data, row, col, x) for x in range(4)):
                 sum += data[row][col] + 1
     return sum
 
@@ -77,10 +74,7 @@ def part2(data):
     basinSizes = list()
     for row in range(len(data)):
         for col in range(len(data[0])):
-            if data[row][col] < getNeighbor(data, row, col, 0) and \
-               data[row][col] < getNeighbor(data, row, col, 1) and \
-               data[row][col] < getNeighbor(data, row, col, 2) and \
-               data[row][col] < getNeighbor(data, row, col, 3):
+            if all(data[row][col] < getNeighbor(data, row, col, x) for x in range(4)):
                 basinSizes.append(getBasinSize(data, row, col))
 
     # sort and return the product of the last/biggest 3 basins
