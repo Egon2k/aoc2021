@@ -2,8 +2,14 @@
 Zicke zacke zicke zacke hoi hoi hoi
 '''''''''''''''''''''''''''''''''''
 def processLine(line):
+    '''
+    first return value contains the first wrong closing bracket
+    returns None in case of incomplete line
+    second return value contains a list of all uncompleted
+    opening brackets, retuns None in case of corrupted line
+    '''
     matchingBrackets = {'(': ')', '[': ']', '{': '}', '<': '>'}
-    
+
     brackets = list()
     for currBracket in line:
         if currBracket in '([{<':
@@ -13,13 +19,13 @@ def processLine(line):
             if brackets:
                 lastBracket = brackets.pop()
             if currBracket != matchingBrackets[lastBracket]:
-                return currBracket
-    return
+                return currBracket, None
+    return None, brackets
 
 def part1(data):
     sum = 0
     for line in data:
-        corruptedBracket = processLine(line)
+        corruptedBracket, _ = processLine(line)
         if corruptedBracket == ')':
             sum += 3
         elif corruptedBracket == ']':
@@ -31,7 +37,28 @@ def part1(data):
     return sum
 
 def part2(data):
-    pass
+    sums = list()
+    for line in data:
+        sum = 0
+        _, incomplete = processLine(line)
+
+        while(incomplete):
+            lastBracket = incomplete.pop()
+            if lastBracket == '(':
+                sum = sum * 5 + 1
+            elif lastBracket == '[':
+                sum = sum * 5 + 2
+            elif lastBracket == '{':
+                sum = sum * 5 + 3
+            elif lastBracket == '<':
+                sum = sum * 5 + 4
+
+        # sum = 0 means line was not incomplete
+        if sum:
+            sums.append(sum)
+
+    sums.sort()
+    return sums[(len(sums) - 1) // 2]
 
 if __name__ == "__main__":
     data = []
