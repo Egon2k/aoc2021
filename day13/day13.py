@@ -30,15 +30,18 @@ def count(sheet):
                 sum += 1
     return sum
 
+def solve(sheet, instr):
+    dir, pos = instr
+    if dir == 'x':
+        folded = fold_x(sheet, pos)
+    elif dir == 'y':
+        folded = fold_y(sheet, pos)
+    return folded
+
 def part1(sheet, instr):
-    if instr[0] == 'x':
-        folded = fold_x(sheet, instr[1])
-    elif instr[0] == 'y':
-        folded = fold_y(sheet, instr[1])
+    return count(solve(sheet, instr))
 
-    return count(folded)
-
-def part2(data):
+def part2(sheet, instrs):
     pass
 
 if __name__ == '__main__':
@@ -64,4 +67,4 @@ if __name__ == '__main__':
         sheet[y][x] = 1        
 
     print(part1(sheet, instrs[0]))
-    print(part2(sheet))
+    print(part2(sheet, instrs))
