@@ -34,13 +34,7 @@ def solve(sheet, instr):
     return folded
 
 def create_output(sheet):
-    output = ""
-    for row in sheet:
-        line = ""
-        for col in row:
-            line += " " if col == 0 else "#"
-        output += line + "\n"
-    return output
+    return ''.join([''.join([' ' if x == 0 else '#' for x in row])+"\n" for row in sheet])
 
 def part1(sheet, instr):
     return count(solve(sheet, instr))
