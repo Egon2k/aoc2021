@@ -38,15 +38,14 @@ def solve(sheet, instr):
         folded = fold_y(sheet, pos)
     return folded
 
-def print_sheet(sheet):
+def create_output(sheet):
+    output = ""
     for row in sheet:
         line = ""
         for col in row:
-            if col == 0:
-                line += "."
-            else:
-                line += "#"
-        print(line)
+            line += " " if col == 0 else "#"
+        output += line + "\n"
+    return output
 
 def part1(sheet, instr):
     return count(solve(sheet, instr))
@@ -55,7 +54,8 @@ def part2(sheet, instrs):
     folded = sheet[:]
     for instr in instrs:
         folded = solve(folded, instr)
-    print_sheet(folded)
+    
+    return create_output(folded)
 
 if __name__ == '__main__':
     coords = []
@@ -80,4 +80,4 @@ if __name__ == '__main__':
         sheet[y][x] = 1
 
     print(part1(sheet, instrs[0]))
-    part2(sheet, instrs)
+    print(part2(sheet, instrs))
