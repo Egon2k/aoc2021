@@ -23,12 +23,7 @@ def fold_y(sheet, y_pos):
     return fold(sheet, y_pos)
 
 def count(sheet):
-    sum = 0
-    for row in sheet:
-        for col in row:
-            if col == 1:
-                sum += 1
-    return sum
+    return sum([sum(row) for row in sheet])
 
 def solve(sheet, instr):
     dir, pos = instr
