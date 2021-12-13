@@ -17,7 +17,7 @@ def fold(sheet, pos):
     return new_sheet
 
 def fold_x(sheet, x_pos):
-    return fold(transpose(sheet), x_pos)
+    return transpose(fold(transpose(sheet), x_pos))
 
 def fold_y(sheet, y_pos):
     return fold(sheet, y_pos)
@@ -38,11 +38,24 @@ def solve(sheet, instr):
         folded = fold_y(sheet, pos)
     return folded
 
+def print_sheet(sheet):
+    for row in sheet:
+        line = ""
+        for col in row:
+            if col == 0:
+                line += "."
+            else:
+                line += "#"
+        print(line)
+
 def part1(sheet, instr):
     return count(solve(sheet, instr))
 
 def part2(sheet, instrs):
-    pass
+    folded = sheet[:]
+    for instr in instrs:
+        folded = solve(folded, instr)
+    print_sheet(folded)
 
 if __name__ == '__main__':
     coords = []
@@ -64,7 +77,7 @@ if __name__ == '__main__':
 
     sheet = grid = [[0] * x_max for i in range(y_max)]
     for x, y in coords:
-        sheet[y][x] = 1        
+        sheet[y][x] = 1
 
     print(part1(sheet, instrs[0]))
-    print(part2(sheet, instrs))
+    part2(sheet, instrs)
