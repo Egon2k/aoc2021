@@ -19,12 +19,12 @@ def solve(pol, rules, loops):
             new_tuples[rules[tuple] + tuple[1]] += tuples[tuple]
         tuples = new_tuples
 
-    # count single chars since we only have touples of chars
+    # count single chars since we only have tuples of chars
     single_chars = Counter()
 
     for tuple in tuples:
         single_chars[tuple[0]] += tuples[tuple]
-    # last char in polynom is not counted, since we only considered touples
+    # last char in polynom is not counted, since we only considered tuples
     # so add 1 for the last char in polynom
     single_chars[pol[-1]] += 1
 
