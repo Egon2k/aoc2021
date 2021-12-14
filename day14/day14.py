@@ -6,13 +6,15 @@ from collections import Counter
 def solve(pol, rules, loops):
     tuples = Counter()
     
+    # count every char tuple in polynom
     for char in range(len(pol)-1):
         tuples[pol[char] + pol[char + 1]] += 1
     
     for _ in range(loops):
+        # each loop only follows the rules once so create new counter
         new_tuples = Counter()
         for tuple in tuples:
-            # rule AB -> C results in AC and CB
+            # rule "AB -> C" results in AC and CB
             new_tuples[tuple[0] + rules[tuple]] += tuples[tuple]
             new_tuples[rules[tuple] + tuple[1]] += tuples[tuple]
         tuples = new_tuples
