@@ -29,12 +29,10 @@ def solve(pol, rules, loops):
     return max(single_chars.values()) - min(single_chars.values())
 
 def part1(pol, rules):
-    pol_part1 = pol[:]
-    return solve(pol_part1, rules, 10)
+    return solve(pol, rules, 10)
     
 def part2(pol, rules):
-    pol_part2 = pol[:]
-    return solve(pol_part2, rules, 40)
+    return solve(pol, rules, 40)
 
 if __name__ == '__main__':
     pol = ""
