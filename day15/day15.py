@@ -5,8 +5,10 @@ import heapq, sys
 
 DIR = [(1,0), (-1,0), (0,1), (0,-1)]
 
-# https://stackoverflow.com/a/58833232
 def dijkstra(g, s, t):
+    '''
+    https://stackoverflow.com/a/58833232
+    '''
     q = []
     d = {k: sys.maxsize for k in g.keys()}
     p = {}
@@ -18,23 +20,20 @@ def dijkstra(g, s, t):
         last_w, curr_v = heapq.heappop(q)
         for n, n_w in g[curr_v]:
             cand_w = last_w + n_w # equivalent to d[curr_v] + n_w 
-            #print(d) # uncomment to see how deltas are updated
             if cand_w < d[n]:
                 d[n] = cand_w
                 p[n] = curr_v
                 heapq.heappush(q, (cand_w, n))
 
-    #print("predecessors: ", p )
-    #print("delta: ", d )
     return d[t]
 
-def part1(grid, dest):
+def solve(grid, dest):
     return dijkstra(grid, (0,0), dest)
-    
-def part2(data):
-    pass
 
-def process_data(data):
+def create_grid(data):
+    '''
+    creates grid from data
+    '''
     grid = dict()
 
     for row in range(len(data[0])):
@@ -50,6 +49,35 @@ def process_data(data):
             grid[(row,col)] = weights
     return grid
 
+def extend_data(data):
+    '''
+    preparing data for part 2
+    '''
+    rows = len(data[0]) * 5
+    cols = len(data) * 5
+    new_data = [[0] * rows for i in range(cols)]
+    for r in range(5):
+        for c in range(5):
+            for row in range(len(data[0])):
+                for col in range(len(data)):
+                    new_val = data[row][col] + r + c
+                    if new_val > 9:
+                        new_data[row + len(data[0]) * r][col + len(data) * c] = new_val % 9
+                    else:
+                        new_data[row + len(data[0]) * r][col + len(data) * c] = new_val
+    return new_data
+
+def part1(data):
+    grid = create_grid(data)
+    dest = (len(data) - 1,len(data) - 1)
+    return solve(grid, dest)
+    
+def part2(data):
+    data = extend_data(data)
+    grid = create_grid(data)
+    dest = (len(data) - 1,len(data) - 1)
+    return solve(grid, dest)
+
 if __name__ == '__main__':
     data = []
 
@@ -57,7 +85,5 @@ if __name__ == '__main__':
         for line in f:
             data.append([int(x) for x in line.strip()])
 
-    grid = process_data(data)
-
-    print(part1(grid, (len(data) - 1,len(data) - 1)))
+    print(part1(data))
     print(part2(data))
