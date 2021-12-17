@@ -25,18 +25,17 @@ def shoot(x_start, y_start, x_target, y_target):
     
     return 0, False
         
-def part1(x_target, y_target):
+def part12(x_target, y_target):
     y_hits = list()
-    for x in range(100):
-        for y in range(500):
+    
+    for x in range(161):
+        for y in range(-154,1000):
             y_max, hit = shoot(x, y, x_target, y_target)
             if hit:
                 y_hits.append(y_max)
-
-    return max(y_hits)
-
-def part2(data):
-    pass
+                print(max(y_hits), len(y_hits))
+        
+    return max(y_hits), len(y_hits)
 
 if __name__ == '__main__':
     data = []
@@ -48,5 +47,4 @@ if __name__ == '__main__':
     x_target = range( 111, 161)
     y_target = range(-154,-101)    
 
-    print(part1(x_target, y_target))
-    print(part2(data))
+    print(f'final = {part12(x_target, y_target)}')
