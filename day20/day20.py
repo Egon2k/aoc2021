@@ -12,7 +12,7 @@ def get_neighbors(row, col, input, switch):
             out[r][c] = get_pixel(rr, cc, input, switch)
     return out
 
-def solve(algo, input, switch):
+def cycle(algo, input, switch):
     output_rows = len(input) + 2
     output_cols = len(input[0]) + 2
 
@@ -40,21 +40,21 @@ def print_picture(input):
         print('')
     print('')
 
-def part1(algo, input):
+def solve(algo, input, loops):
     output = input
-    print_picture(output)
-    for x in range(2):
-        output = solve(algo, output, x % 2)
-        print_picture(output)
-
+    for x in range(loops):
+        output = cycle(algo, output, x % 2)
+    
     ans = 0
     for row in output:
         ans += row.count('1')
     return ans
 
+def part1(algo, input):
+    return solve(algo, input, 2)
 
 def part2(algo, input):
-    pass
+    return solve(algo, input, 50)
 
 if __name__ == '__main__':
     algo = ""
